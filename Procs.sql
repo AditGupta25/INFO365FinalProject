@@ -17,3 +17,35 @@ CREATE OR REPLACE FUNCTION divide (total IN NUMBER, games IN NUMBER)
 --   dbms_output.put_line('Avg Points per game: ' || c);
 -- END;
 -- /
+
+/*
+WARNING, NOT TESTED. NEED to insert first to test.
+Updates the ppg after each stat update. if no games played, then does not divide by zero, instead keeps ppg at 0.
+ */
+CREATE or REPLACE TRIGGER Stats_PPG_After_Update
+AFTER
+  INSERT OR
+  UPDATE
+  ON Stats
+FOR EACH ROW
+  DECLARE
+    v_points NUMBER(4);
+    v_gamesPlayed NUMBER(3);
+    v_ppg NUMBER(3,1);
+
+  BEGIN
+
+    SELECT Points, GamesPlayed INTO v_points, v_gamesPlayed
+    FROM Stats;
+
+    If v_gamesPlayed < 1 THEN
+      UPDATE Stats
+      SET PPG = 0;
+    ELSE
+      v_ppg := divide(v_points, v_gamesPlayed);
+      UPDATE Stats
+      SET PPG = v_ppg;
+
+    END IF;
+  END Stats_PPG_After_Update;
+/
