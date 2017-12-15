@@ -14,6 +14,6 @@ CREATE OR REPLACE FUNCTION divide (total IN NUMBER, games IN NUMBER)
 --   c NUMBER(3,1);
 -- BEGIN
 --   c := divide(543,23);
---   dbms_output.put_line('Total no. of Customers: ' || c);
+--   dbms_output.put_line('Avg Points per game: ' || c);
 -- END;
 -- /
