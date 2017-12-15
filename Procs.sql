@@ -49,3 +49,15 @@ FOR EACH ROW
     END IF;
   END Stats_PPG_After_Update;
 /
+
+
+/*
+NOT TESTED YET. NEED to insert first
+Query Im working on that gives top 5 leaders in PPG.
+Will soon wrap in a stored Procedure once tested
+Soon will make one for APG, RPG, Wins
+ */
+SELECT fname, lname, position, ppg from player, stats
+  where player.playerid = stats.playerid
+        AND ROWNUM <= 5
+  ORDER BY ppg DESC;
