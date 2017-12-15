@@ -83,13 +83,20 @@ Create table Stats (
 	Points 				NUMBER(4),
 	Assists 			NUMBER(4),
 	Rebounds 			NUMBER(4),
+	PPG						NUMBER(3,1) DEFAULT 0,
+	RPG						NUMBER(3,1) DEFAULT 0,
+	APG						NUMBER(3,1) DEFAULT 0,
 	CONSTRAINT pk_stat
 	PRIMARY KEY (StatID),
 	CONSTRAINT fk_playerrecord
 		FOREIGN KEY (RecordID)
 		REFERENCES Team_Record(RecordID)
+		ON DELETE CASCADE,
+	CONSTRAINT fk_playerid
+		FOREIGN KEY (PlayerID)
+		REFERENCES Player (PlayerID)
 		ON DELETE CASCADE
-);	
+	);
 
 	
 
