@@ -32,29 +32,6 @@ INSERT INTO Coach values (0066,'Scott', 'Byron', 800000);
 INSERT INTO Coach values (0077,'Stevens', 'Brad', 770000);
 
 
-
-Create table Team_Record (
-	RecordID			NUMBER(4),
-	TeamID 				NUMBER(4),
-	Wins				NUMBER(3) NOT NULL,
-	Losses				NUMBER(3) NOT NULL,
-	CoachID				NUMBER(4) NOT NULL,
-	SeasonID 			NUMBER(4) NOT NULL,
-	CONSTRAINT pk_recordid
-	PRIMARY KEY (RecordID),
-	CONSTRAINT fk_teamid
-		FOREIGN KEY (TeamID)
-		REFERENCES Team(TeamID)
-		ON DELETE CASCADE,
-	CONSTRAINT fk_recordszn
-		FOREIGN KEY (SeasonID)
-		REFERENCES Season(SeasonID)
-		ON DELETE CASCADE,
-	CONSTRAINT fk_teamcoach
-		FOREIGN KEY (CoachID)
-		REFERENCES Coach(CoachID)
-		ON DELETE CASCADE
-
 --RECORDS		
 INSERT INTO Team_Record values (1000,0001,27,55,0011,2008);
 INSERT INTO Team_Record values (1100,0001,24,58,0011,2009);	
@@ -220,7 +197,7 @@ INSERT INTO Stats values (6021,5003,2600,82,1240,430,790);
 INSERT INTO Stats values (6021,5003,2700,82,1270,450,890);	
 INSERT INTO Stats values (6021,5003,2800,82,1300,476,885);	
 INSERT INTO Stats values (6021,5003,2900,82,1450,441,874);			
-		
+------------------------------------------------------------------		
 		
 		
 		
