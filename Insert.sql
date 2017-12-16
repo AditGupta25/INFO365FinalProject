@@ -120,23 +120,6 @@ INSERT INTO Player values (5018,'Leonard','Kawai','F');
 INSERT INTO Player values (5019,'Durant','Kevin','F');
 INSERT INTO Player values (5020,'Jordan','DeAndre','C');	
 
-Create table Stats (
-	StatID 				NUMBER(4),
-	PlayerID 			NUMBER(4),
-	RecordID			NUMBER(4),
-	GamesPlayed 		NUMBER(3),
-	Points 				NUMBER(4),
-	Assists 			NUMBER(4),
-	Rebounds 			NUMBER(4),
-	CONSTRAINT pk_stat
-	PRIMARY KEY (StatID),
-	CONSTRAINT fk_playerrecord
-		FOREIGN KEY (RecordID)
-		REFERENCES Team_Record(RecordID)
-		ON DELETE CASCADE
-);	
-
-
 ----------NY PLAYER STATS----------------------------
 --Chris Paul
 INSERT INTO Stats values (6000,5000,2000,82,990,580,100);
