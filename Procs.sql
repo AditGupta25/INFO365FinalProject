@@ -61,3 +61,24 @@ SELECT fname, lname, position, ppg from player, stats
   where player.playerid = stats.playerid
         AND ROWNUM <= 5
   ORDER BY ppg DESC;
+
+
+
+/*
+------------------------------------------------
+Here are the 4 Triggers made by Adit Gupta 
+Below are the triggers and a brief description of 
+what they do
+------------------------------------------------
+*/
+
+
+
+
+
+/*
+------------------------------------------------
+End Triggers
+------------------------------------------------
+*/
+  

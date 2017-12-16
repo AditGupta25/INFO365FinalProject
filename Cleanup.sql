@@ -15,10 +15,12 @@
 
 
 
---Drop Tables here
-DROP TABLE Coach;
-DROP TABLE Team;
-DROP TABLE Season;
-DROP TABLE Team_Record;
-DROP TABLE Player;
-DROP TABLE Stats;
+--Drop Tables here, this order of dropping is vital.
+DROP TABLE Stats; -- 1
+DROP TABLE Team_Record; -- 2
+DROP TABLE Player; -- 3
+DROP TABLE Coach; -- 4
+DROP TABLE Season; -- 5
+DROP TABLE Team; -- 6
+
+

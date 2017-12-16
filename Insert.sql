@@ -2,6 +2,14 @@
 --FLAGRANTS ONLY
 --Insert Table Statements
 
+--COACHES
+INSERT INTO Coach values (0011,'Brown', 'Mike', 700000);
+INSERT INTO Coach values (0022,'Hornacek', 'Jeff', 7200000);
+INSERT INTO Coach values (0033,'Auerbach', 'Red', 9800000);
+INSERT INTO Coach values (0044,'Jackson', 'Phil', 110000);
+INSERT INTO Coach values (0055,'Thibodeau', 'Tom', 800000);
+INSERT INTO Coach values (0066,'Scott', 'Byron', 800000);
+INSERT INTO Coach values (0077,'Stevens', 'Brad', 770000);
 
 --SEASON
 INSERT INTO Season values (2008,'[CHAMPIONPLACEHOLDER]');
@@ -16,20 +24,11 @@ INSERT INTO Season values (2016,'[CHAMPIONPLACEHOLDER]');
 INSERT INTO Season values (2017,'[CHAMPIONPLACEHOLDER]');
 
 --TEAMS
-INSERT INTO Team values (0001,'Process', 'Philadelphia, Harris');
-INSERT INTO Team values (0002,'Metros', 'New York, Dolan');
-INSERT INTO Team values (0003,'Irish', 'Boston, Gaston');
+INSERT INTO Team values (0001,'Process', 'Philadelphia', 'Harris');
+INSERT INTO Team values (0002,'Metros', 'New York', 'Dolan');
+INSERT INTO Team values (0003,'Irish', 'Boston', 'Gaston');
 INSERT INTO Team values (0004,'Stars', 'Los Angeles', 'Buss');
-INSERT INTO Team values (0002,'Toros', 'Chicago', 'Reinsdorf');
-
---COACHES
-INSERT INTO Coach values (0011,'Brown', 'Mike', 700000);
-INSERT INTO Coach values (0022,'Hornacek', 'Jeff', 7200000);
-INSERT INTO Coach values (0033,'Auerbach', 'Red', 9800000);
-INSERT INTO Coach values (0044,'Jackson', 'Phil', 110000);
-INSERT INTO Coach values (0055,'Thibodeau', 'Tom', 800000);
-INSERT INTO Coach values (0066,'Scott', 'Byron', 800000);
-INSERT INTO Coach values (0077,'Stevens', 'Brad', 770000);
+INSERT INTO Team values (0005,'Toros', 'Chicago', 'Reinsdorf');
 
 
 --RECORDS		

@@ -3,12 +3,12 @@
 --Create Table Statements
 -- Last Updated 12/14/17 by T.O
 
-DROP TABLE Coach;
-DROP TABLE Team;
-DROP TABLE Season;
-DROP TABLE Team_Record;
-DROP TABLE Player;
-DROP TABLE Stats;
+DROP TABLE Coach; -- 4
+DROP TABLE Team; -- 6
+DROP TABLE Season; -- 5
+DROP TABLE Team_Record; -- 2
+DROP TABLE Player; -- 3
+DROP TABLE Stats; -- 1
 
 Create table Coach (
 	CoachID 			NUMBER(4),	
