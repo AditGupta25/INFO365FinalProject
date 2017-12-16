@@ -12,16 +12,16 @@ INSERT INTO Coach values (0066,'Scott', 'Byron', 800000);
 INSERT INTO Coach values (0077,'Stevens', 'Brad', 770000);
 
 --SEASON
-INSERT INTO Season values (2008,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2009,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2010,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2011,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2012,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2013,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2014,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2015,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2016,'[CHAMPIONPLACEHOLDER]');
-INSERT INTO Season values (2017,'[CHAMPIONPLACEHOLDER]');
+INSERT INTO Season values (2008);
+INSERT INTO Season values (2009);
+INSERT INTO Season values (2010);
+INSERT INTO Season values (2011);
+INSERT INTO Season values (2012);
+INSERT INTO Season values (2013);
+INSERT INTO Season values (2014);
+INSERT INTO Season values (2015);
+INSERT INTO Season values (2016);
+INSERT INTO Season values (2017);
 
 --TEAMS
 INSERT INTO Team values (0001,'Process', 'Philadelphia', 'Harris');
