@@ -3,6 +3,7 @@
 --Create Table Statements
 -- Last Updated 12/14/17 by T.O
 
+
 DROP TABLE Coach; -- 4
 DROP TABLE Team; -- 6
 DROP TABLE Season; -- 5
@@ -10,10 +11,11 @@ DROP TABLE Team_Record; -- 2
 DROP TABLE Player; -- 3
 DROP TABLE Stats; -- 1
 
+
 Create table Coach (
 	CoachID 			NUMBER(4),	
 	Lname 				VARCHAR2(20) NOT NULL,
-	Fname 				VARCHAR2(20)NOT NULL,
+	Fname 				VARCHAR2(20) NOT NULL,
 	Salary 				NUMBER(9)NOT NULL,
 	CONSTRAINT pk_coach
 	PRIMARY KEY (CoachID)
@@ -28,6 +30,7 @@ Create table Coach (
 	CONSTRAINT pk_teamid
 	PRIMARY KEY (TeamID)
 );	
+
 
 Create table Season (
 	SeasonID 			NUMBER(4),
@@ -66,6 +69,7 @@ Create table Team_Record (
 --add not nulls
 );
 
+
 Create table Player (
 	PlayerID 			NUMBER(4),
 	Lname 				VARCHAR2(20),
@@ -74,6 +78,7 @@ Create table Player (
 	CONSTRAINT pk_player
 	PRIMARY KEY (PlayerID)
 );
+
 
 Create table Stats (
 	StatID 				NUMBER(4),
@@ -96,10 +101,4 @@ Create table Stats (
 		FOREIGN KEY (PlayerID)
 		REFERENCES Player (PlayerID)
 		ON DELETE CASCADE
-	);
-
-	
-
-
-	
-	
+);
