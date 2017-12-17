@@ -16,7 +16,7 @@ Create table Coach (
 	CoachID 			NUMBER(4),	
 	Lname 				VARCHAR2(20) NOT NULL,
 	Fname 				VARCHAR2(20) NOT NULL,
-	Salary 				NUMBER(9)NOT NULL,
+	Salary 				NUMBER(9) NOT NULL,
 	CONSTRAINT pk_coach
 	PRIMARY KEY (CoachID)
 );
