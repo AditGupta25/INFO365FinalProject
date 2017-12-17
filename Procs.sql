@@ -50,61 +50,7 @@ FOR EACH ROW
   END Stats_PPG_After_Update;
 /
 
---Trigger updates rebounds per game
-CREATE or REPLACE TRIGGER Stats_RPG_After_Update
-AFTER
-  INSERT OR
-  UPDATE
-  ON Stats
-FOR EACH ROW
-  DECLARE
-    v_rebounds NUMBER(4);
-    v_gamesPlayed NUMBER(3);
-    v_rpg NUMBER(3,1);
 
-  BEGIN
-
-    SELECT Rebounds, GamesPlayed INTO v_rebounds, v_gamesPlayed
-    FROM Stats;
-
-    If v_gamesPlayed < 1 THEN
-      UPDATE Stats
-      SET RPG = 0;
-    ELSE
-      v_rpg := divide(v_rebounds, v_gamesPlayed);
-      UPDATE Stats
-      SET RPG = rpg;
-
-    END IF;
-  END Stats_RPG_After_Update;
-/
---Trigger upddates assistes per game
-CREATE or REPLACE TRIGGER Stats_APG_After_Update
-AFTER
-  INSERT OR
-  UPDATE
-  ON Stats
-FOR EACH ROW
-  DECLARE
-    v_assists NUMBER(4);
-    v_gamesPlayed NUMBER(3);
-    v_apg NUMBER(3,1);
-
-  BEGIN
-
-    SELECT Assists, GamesPlayed INTO v_assists, v_gamesPlayed
-    FROM Stats;
-    If v_gamesPlayed < 1 THEN
-      UPDATE Stats
-      SET APG = 0;
-    ELSE
-      v_apg := divide(v_assists, v_gamesPlayed);
-      UPDATE Stats
-      SET APG = apg;
-
-    END IF;
-  END Stats_APG_After_Update;
-/
 /*
 NOT TESTED YET. NEED to insert first
 Query Im working on that gives top 5 leaders in PPG.
@@ -120,12 +66,10 @@ SELECT fname, lname, position, ppg from player, stats
 
 /*
 ------------------------------------------------
-Here are the 4 Triggers made by Adit Gupta 
-Below are the triggers and a brief description of 
-what they do
+Here are the 4 Procedures
 ------------------------------------------------
 */
---This query will print salaries of the coach that are most paid, with his name.
+--This query will print salaries of the coach that are most paid, with his name. Gets Top 3 hoighest paid coaches
 CREATE OR REPLACE PROCEDURE most_paid_coach_details 
 IS    
   coach_cur IS
@@ -135,73 +79,99 @@ IS
         RANK() OVER (ORDER BY SALARY DESC) EMPRANK
         FROM coach
       )
-      WHERE emprank <= 1;
+      WHERE EMPRANK <= 3;
       coach_rec coach_cur%rowtype;
 BEGIN    
   FOR coach_rec in coach_cur 
     LOOP 
-      dbms_output.put_line(coach_cur.Fname || ' ' ||emp_cur.Lname
+      dbms_output.put_line(coach_cur.Fname || ' ' ||coach_cur.Lname
       || ' ' ||coach_cur.Salary);
    END LOOP;
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
+
 END; 
 /
 
 
+
 --This query will Print out the players with the most points to the least
-CREATE [OR REPLACE] PROCEDURE proc_name [list of parameters] 
+CREATE OR REPLACE PROCEDURE players_with_most_points
 IS    
-   Declaration section 
+   playerPoint_cur
+      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+      RANK() OVER (ORDER BY POINTS DESC) POINTRANK
+      FROM stats
+      (
+        SELECT 
+      )
+      point_rec playerPoint_cur%rowtype;
 BEGIN    
-   Execution section 
+  FOR point_rec in playerPoint_cur
+    LOOP 
+      dbms_output.put_line(point_rec.PlayerID || ' ' ||point_rec.GamesPlayed
+      || ' ' ||point_rec.Assists || ' ' ||point_rec.Rebounds || ' ' ||point_rec.Points);
+   END LOOP;
 EXCEPTION    
-  Exception section 
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
 END; 
+/
 
 
 --This query will run the query that will get the player with the most assists
-CREATE [OR REPLACE] PROCEDURE proc_name [list of parameters] 
+CREATE OR REPLACE PROCEDURE players_with_most_assists
 IS    
-   Declaration section 
+   playerAssist_cur
+      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+      RANK() OVER (ORDER BY Assists DESC) AssistRank
+      FROM stats
+      (
+        SELECT 
+      )
+      assist_rec playerAssist_cur%rowtype;
 BEGIN    
-   Execution section 
+  FOR assist_rec in playerAssist_cur
+    LOOP 
+      dbms_output.put_line(assist_rec.PlayerID || ' ' ||assist_rec.GamesPlayed
+      || ' ' ||assist_rec.Assists || ' ' ||assist_rec.Rebounds || ' ' ||assist_rec.Points);
+   END LOOP;
 EXCEPTION    
-  Exception section 
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
 END; 
+/
 
 
---Updates the apg after each stat update. if no games played, then does not divide by zero, instead keeps ppg at 0.
-CREATE or REPLACE TRIGGER Stats_APG_After_Update
-AFTER
-  INSERT OR
-  UPDATE
-  ON Stats
-FOR EACH ROW
-  DECLARE
-    v_points NUMBER(4);
-    v_gamesPlayed NUMBER(3);
-    v_ppg NUMBER(3,1);
-
-  BEGIN
-
-    SELECT Points, GamesPlayed INTO v_points, v_gamesPlayed
-    FROM Stats;
-
-    If v_gamesPlayed < 1 THEN
-      UPDATE Stats
-      SET PPG = 0;
-    ELSE
-      v_ppg := divide(v_points, v_gamesPlayed);
-      UPDATE Stats
-      SET PPG = v_ppg;
-
-    END IF;
-  END Stats_APG_After_Update;
+--Gets the player that has played the most games. Top 3 players with most games won.
+CREATE OR REPLACE PROCEDURE players_with_most_games_played
+IS    
+   gamesPlayes_cur
+      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+      RANK() OVER (ORDER BY GamesPlayed DESC) gamesRank
+      FROM stats
+      (
+        SELECT 
+      )
+       WHERE gamesRank <= 3;
+      games_rec gamesPlayes_cur%rowtype;
+BEGIN    
+  FOR games_rec in gamesPlayes_cur
+    LOOP 
+      dbms_output.put_line(games_rec.PlayerID || ' ' ||games_rec.GamesPlayed
+      || ' ' ||games_rec.Assists || ' ' ||games_rec.Rebounds || ' ' ||games_rec.Points);
+   END LOOP;
+EXCEPTION    
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
+END; 
 /
 
 
 /*
 ------------------------------------------------
-End Triggers
+End Procedures
 ------------------------------------------------
 */
   
