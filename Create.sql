@@ -34,13 +34,8 @@ Create table Coach (
 
 Create table Season (
 	SeasonID 			NUMBER(4),
-	ChampID 	 		NUMBER(4),
 	CONSTRAINT pk_szn
-		PRIMARY KEY (SeasonID),
-	CONSTRAINT fk_ChampID
-		FOREIGN KEY (ChampID)
-		REFERENCES Team(TeamID)
-		ON DELETE CASCADE
+	PRIMARY KEY (SeasonID)
 );
 
 

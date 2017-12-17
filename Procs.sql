@@ -71,9 +71,78 @@ Below are the triggers and a brief description of
 what they do
 ------------------------------------------------
 */
+--This query will print salaries of the coach that are most paid, with his name.
+CREATE OR REPLACE PROCEDURE most_paid_coach_details 
+IS    
+  coach_cur IS
+      SELECT * FROM 
+      (
+        SELECT Fname, Lname, Salary,
+        RANK() OVER (ORDER BY SALARY DESC) EMPRANK
+        FROM coach
+      )
+      WHERE emprank <= 1;
+      coach_rec coach_cur%rowtype;
+BEGIN    
+  FOR coach_rec in coach_cur 
+    LOOP 
+      dbms_output.put_line(coach_cur.Fname || ' ' ||emp_cur.Lname
+      || ' ' ||coach_cur.Salary);
+   END LOOP;
+END; 
+/
 
 
+--This query will Print out the players with the most points to the least
+CREATE [OR REPLACE] PROCEDURE proc_name [list of parameters] 
+IS    
+   Declaration section 
+BEGIN    
+   Execution section 
+EXCEPTION    
+  Exception section 
+END; 
 
+
+--This query will run the query that will get the player with the most assists
+CREATE [OR REPLACE] PROCEDURE proc_name [list of parameters] 
+IS    
+   Declaration section 
+BEGIN    
+   Execution section 
+EXCEPTION    
+  Exception section 
+END; 
+
+
+--Updates the apg after each stat update. if no games played, then does not divide by zero, instead keeps ppg at 0.
+CREATE or REPLACE TRIGGER Stats_APG_After_Update
+AFTER
+  INSERT OR
+  UPDATE
+  ON Stats
+FOR EACH ROW
+  DECLARE
+    v_points NUMBER(4);
+    v_gamesPlayed NUMBER(3);
+    v_ppg NUMBER(3,1);
+
+  BEGIN
+
+    SELECT Points, GamesPlayed INTO v_points, v_gamesPlayed
+    FROM Stats;
+
+    If v_gamesPlayed < 1 THEN
+      UPDATE Stats
+      SET PPG = 0;
+    ELSE
+      v_ppg := divide(v_points, v_gamesPlayed);
+      UPDATE Stats
+      SET PPG = v_ppg;
+
+    END IF;
+  END Stats_APG_After_Update;
+/
 
 
 /*
