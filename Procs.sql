@@ -105,6 +105,74 @@ SELECT * FROM
     ORDER BY ppg DESC
   ) results
 WHERE ROWNUM <= 5;
+
+
+CREATE OR REPLACE PROCEDURE top_ppg
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('League Leaders in PPG for the latest year');
+    dbms_output.put_line('First'|| ' ' || 'Last' || ' ' || 'Position' || ' ' || 'PPG');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR row IN (SELECT * FROM
+      (
+        SELECT fname, lname, position, ppg from player, stats
+        WHERE stats.recordid = (SELECT MAX(RecordID) FROM Stats WHERE player.playerid = stats.playerid)
+        ORDER BY ppg DESC
+      ) results
+    WHERE ROWNUM <= 5)
+    LOOP
+      dbms_output.put_line(row.fname||' '||row.lname||' '|| row.position || ' ' || row.ppg);
+    END LOOP;
+  END;
+/
+
+CREATE OR REPLACE PROCEDURE top_apg
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('League Leaders in APG for the latest year');
+    dbms_output.put_line('First'|| ' ' || 'Last' || ' ' || 'Position' || ' ' || 'APG');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR row IN (SELECT * FROM
+      (
+        SELECT fname, lname, position, apg from player, stats
+        WHERE stats.recordid = (SELECT MAX(RecordID) FROM Stats WHERE player.playerid = stats.playerid)
+        ORDER BY apg DESC
+      ) results
+    WHERE ROWNUM <= 5)
+    LOOP
+      dbms_output.put_line(row.fname||' '||row.lname||' '|| row.position || ' ' || row.apg);
+    END LOOP;
+  END;
+/
+
+CREATE OR REPLACE PROCEDURE top_rpg
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('League Leaders in RPG for the latest year');
+    dbms_output.put_line('First'|| ' ' || 'Last' || ' ' || 'Position' || ' ' || 'APG');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR row IN (SELECT * FROM
+      (
+        SELECT fname, lname, position, rpg from player, stats
+        WHERE stats.recordid = (SELECT MAX(RecordID) FROM Stats WHERE player.playerid = stats.playerid)
+        ORDER BY rpg DESC
+      ) results
+    WHERE ROWNUM <= 5)
+    LOOP
+      dbms_output.put_line(row.fname||' '||row.lname||' '|| row.position || ' ' || row.rpg);
+    END LOOP;
+  END;
+/
+
 /*
 ------------------------------------------------
 Here are the 4 Procedures
