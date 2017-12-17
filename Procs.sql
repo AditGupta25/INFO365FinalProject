@@ -228,75 +228,140 @@ AS
 
 
 --This query will Print out the players with the most points to the least
+--CREATE OR REPLACE PROCEDURE players_with_most_points
+-- IS    
+--    playerPoint_cur
+--       SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+--       RANK() OVER (ORDER BY POINTS DESC) POINTRANK
+--       FROM stats
+--       (
+--         SELECT 
+--       )
+--       point_rec playerPoint_cur%rowtype;
+-- BEGIN    
+--   FOR point_rec in playerPoint_cur
+--     LOOP 
+--       dbms_output.put_line(point_rec.PlayerID || ' ' ||point_rec.GamesPlayed
+--       || ' ' ||point_rec.Assists || ' ' ||point_rec.Rebounds || ' ' ||point_rec.Points);
+--    END LOOP;
+-- EXCEPTION    
+--   WHEN OTHERS THEN
+--     DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
+-- END; 
+-- /
+
 CREATE OR REPLACE PROCEDURE players_with_most_points
-IS    
-   playerPoint_cur
-      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
-      RANK() OVER (ORDER BY POINTS DESC) POINTRANK
-      FROM stats
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('Players with Most points from teams');
+    dbms_output.put_line('PlayerID' || ' ' || 'Assists' || ' ' || 'Points');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR point_rec IN (SELECT * FROM
       (
-        SELECT 
+        SELECT PlayerID, Assists, Points,
+          RANK() OVER (ORDER BY Points DESC) EMPRANK
+        FROM stats
       )
-      point_rec playerPoint_cur%rowtype;
-BEGIN    
-  FOR point_rec in playerPoint_cur
-    LOOP 
-      dbms_output.put_line(point_rec.PlayerID || ' ' ||point_rec.GamesPlayed
-      || ' ' ||point_rec.Assists || ' ' ||point_rec.Rebounds || ' ' ||point_rec.Points);
-   END LOOP;
-EXCEPTION    
-  WHEN OTHERS THEN
-    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
-END; 
+    WHERE EMPRANK <= 3)
+    LOOP
+      dbms_output.put_line(point_rec.PlayerID || ' ' ||point_rec.Assists|| ' ' ||point_rec.Points);
+    END LOOP;
+  END;
 /
 
 
---This query will run the query that will get the player with the most assists
+-- --This query will run the query that will get the player with the most assists
+-- CREATE OR REPLACE PROCEDURE players_with_most_assists
+-- IS    
+--    playerAssist_cur
+--       SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+--       RANK() OVER (ORDER BY Assists DESC) AssistRank
+--       FROM stats
+--       (
+--         SELECT 
+--       )
+--       assist_rec playerAssist_cur%rowtype;
+-- BEGIN    
+--   FOR assist_rec in playerAssist_cur
+--     LOOP 
+--       dbms_output.put_line(assist_rec.PlayerID || ' ' ||assist_rec.GamesPlayed
+--       || ' ' ||assist_rec.Assists || ' ' ||assist_rec.Rebounds || ' ' ||assist_rec.Points);
+--    END LOOP;
+-- EXCEPTION    
+--   WHEN OTHERS THEN
+--     DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
+-- END; 
+-- /
+
 CREATE OR REPLACE PROCEDURE players_with_most_assists
-IS    
-   playerAssist_cur
-      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
-      RANK() OVER (ORDER BY Assists DESC) AssistRank
-      FROM stats
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('Players with Most points from teams');
+    dbms_output.put_line('PlayerID' || ' ' || 'Assists');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR rec IN (SELECT * FROM
       (
-        SELECT 
+        SELECT PlayerID, Assists,
+          RANK() OVER (ORDER BY Assists DESC) EMPRANK
+        FROM stats
       )
-      assist_rec playerAssist_cur%rowtype;
-BEGIN    
-  FOR assist_rec in playerAssist_cur
-    LOOP 
-      dbms_output.put_line(assist_rec.PlayerID || ' ' ||assist_rec.GamesPlayed
-      || ' ' ||assist_rec.Assists || ' ' ||assist_rec.Rebounds || ' ' ||assist_rec.Points);
-   END LOOP;
-EXCEPTION    
-  WHEN OTHERS THEN
-    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
-END; 
+    WHERE EMPRANK <= 3)
+    LOOP
+      dbms_output.put_line(rec.PlayerID || ' ' ||rec.Assists);
+    END LOOP;
+  END;
 /
 
 
 --Gets the player that has played the most games. Top 3 players with most games won.
+--CREATE OR REPLACE PROCEDURE players_with_most_games_played
+-- IS    
+--    gamesPlayes_cur
+--       SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
+--       RANK() OVER (ORDER BY GamesPlayed DESC) gamesRank
+--       FROM stats
+--       (
+--         SELECT 
+--       )
+--        WHERE gamesRank <= 3;
+--       games_rec gamesPlayes_cur%rowtype;
+-- BEGIN    
+--   FOR games_rec in gamesPlayes_cur
+--     LOOP 
+--       dbms_output.put_line(games_rec.PlayerID || ' ' ||games_rec.GamesPlayed
+--       || ' ' ||games_rec.Assists || ' ' ||games_rec.Rebounds || ' ' ||games_rec.Points);
+--    END LOOP;
+-- EXCEPTION    
+--   WHEN OTHERS THEN
+--     DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
+-- END; 
+-- /
 CREATE OR REPLACE PROCEDURE players_with_most_games_played
-IS    
-   gamesPlayes_cur
-      SELECT PlayerID, GamesPlayed, Assists, Rebounds, Points,
-      RANK() OVER (ORDER BY GamesPlayed DESC) gamesRank
-      FROM stats
+AS
+
+  BEGIN
+    dbms_output.put_line(chr(13)||chr(10));
+    dbms_output.put_line('Players with Most points from teams');
+    dbms_output.put_line('PlayerID' || ' ' || 'Assists');
+    dbms_output.put_line(chr(13)||chr(10));
+
+    FOR rec IN (SELECT * FROM
       (
-        SELECT 
+        SELECT PlayerID, GamesPlayed,
+          RANK() OVER (ORDER BY GamesPlayed DESC) EMPRANK
+        FROM stats
       )
-       WHERE gamesRank <= 3;
-      games_rec gamesPlayes_cur%rowtype;
-BEGIN    
-  FOR games_rec in gamesPlayes_cur
-    LOOP 
-      dbms_output.put_line(games_rec.PlayerID || ' ' ||games_rec.GamesPlayed
-      || ' ' ||games_rec.Assists || ' ' ||games_rec.Rebounds || ' ' ||games_rec.Points);
-   END LOOP;
-EXCEPTION    
-  WHEN OTHERS THEN
-    DBMS_OUTPUT.PUT_LINE('There was an error that occured!');
-END; 
+    WHERE EMPRANK <= 3)
+    LOOP
+      dbms_output.put_line(rec.PlayerID || ' ' ||rec.GamesPlayed);
+    END LOOP;
+  END;
 /
 
 --This query shows the 3 best seasons, by wins.
