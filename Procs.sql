@@ -19,13 +19,12 @@ CREATE OR REPLACE FUNCTION divide (total IN NUMBER, games IN NUMBER)
 -- /
 
 /*
-WARNING, NOT TESTED. NEED to insert first to test.
 Updates the ppg after each stat update. if no games played, then does not divide by zero, instead keeps ppg at 0.
  */
 CREATE or REPLACE TRIGGER Stats_PPG_After_Update
-AFTER
-  INSERT OR
-  UPDATE
+BEFORE
+INSERT OR
+UPDATE
   ON Stats
 FOR EACH ROW
   DECLARE
@@ -34,36 +33,78 @@ FOR EACH ROW
     v_ppg NUMBER(3,1);
 
   BEGIN
-
-    SELECT Points, GamesPlayed INTO v_points, v_gamesPlayed
-    FROM Stats;
+    v_gamesPlayed := :new.GamesPlayed;
+    v_points := :new.Points;
 
     If v_gamesPlayed < 1 THEN
-      UPDATE Stats
-      SET PPG = 0;
+      :new.PPG := 0;
     ELSE
       v_ppg := divide(v_points, v_gamesPlayed);
-      UPDATE Stats
-      SET PPG = v_ppg;
-
+      :new.PPG := v_ppg;
     END IF;
   END Stats_PPG_After_Update;
 /
 
+CREATE or REPLACE TRIGGER Stats_APG_After_Update
+BEFORE
+INSERT OR
+UPDATE
+  ON Stats
+FOR EACH ROW
+  DECLARE
+    v_assists NUMBER(4);
+    v_gamesPlayed NUMBER(3);
+    v_apg NUMBER(3,1);
 
+  BEGIN
+    v_gamesPlayed := :new.GamesPlayed;
+    v_assists := :new.Assists;
+
+    If v_gamesPlayed < 1 THEN
+      :new.APG := 0;
+    ELSE
+      v_apg := divide(v_assists, v_gamesPlayed);
+      :new.APG := v_apg;
+    END IF;
+  END Stats_APG_After_Update;
+/
+
+CREATE or REPLACE TRIGGER Stats_RPG_After_Update
+BEFORE
+INSERT OR
+UPDATE
+  ON Stats
+FOR EACH ROW
+  DECLARE
+    v_rebounds NUMBER(4);
+    v_gamesPlayed NUMBER(3);
+    v_rpg NUMBER(3,1);
+
+  BEGIN
+    v_gamesPlayed := :new.GamesPlayed;
+    v_rebounds := :new.Rebounds;
+
+    If v_gamesPlayed < 1 THEN
+      :new.RPG := 0;
+    ELSE
+      v_rpg := divide(v_rebounds, v_gamesPlayed);
+      :new.RPG := v_rpg;
+    END IF;
+  END Stats_RPG_After_Update;
+/
 /*
-NOT TESTED YET. NEED to insert first
 Query Im working on that gives top 5 leaders in PPG.
 Will soon wrap in a stored Procedure once tested
 Soon will make one for APG, RPG, Wins
  */
-SELECT fname, lname, position, ppg from player, stats
-  where player.playerid = stats.playerid
-        AND ROWNUM <= 5
-  ORDER BY ppg DESC;
 
-
-
+SELECT * FROM
+  (
+    SELECT fname, lname, position, ppg from player, stats
+    WHERE stats.recordid = (SELECT MAX(RecordID) FROM Stats WHERE player.playerid = stats.playerid)
+    ORDER BY ppg DESC
+  ) results
+WHERE ROWNUM <= 5;
 /*
 ------------------------------------------------
 Here are the 4 Procedures

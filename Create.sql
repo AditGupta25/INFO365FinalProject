@@ -4,12 +4,13 @@
 -- Last Updated 12/14/17 by T.O
 
 
-DROP TABLE Coach; -- 4
-DROP TABLE Team; -- 6
-DROP TABLE Season; -- 5
-DROP TABLE Team_Record; -- 2
-DROP TABLE Player; -- 3
-DROP TABLE Stats; -- 1
+
+DROP TABLE Stats;
+DROP TABLE Team_Record;
+DROP TABLE Season;
+DROP TABLE Team;
+DROP TABLE Player;
+DROP TABLE Coach;
 
 
 Create table Coach (
