@@ -1,4 +1,4 @@
-select text from all_source where name = 'most_paid_coach_details'
+select text from all_source where name = 'top_ppg'
 and type = 'PACKAGE BODY'
 order by line;
 
