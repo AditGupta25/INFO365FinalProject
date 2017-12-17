@@ -168,6 +168,53 @@ EXCEPTION
 END; 
 /
 
+--This query shows the 3 best seasons, by wins.
+CREATE OR REPLACE PROCEDURE best_records
+IS
+	win_cur IS
+	SELECT * FROM
+	(
+		SELECT TeamID, Wins, SeasonID
+		RANK() OVER (ORDER BY Wins DESC) WINRANK
+		FROM Team_Record
+	)
+	WHERE WINRANK <= 3;
+	win_rec team_cur%rowtype;
+BEGIN
+FOR win_rec in win_cur
+	LOOP
+		dbms_output.put_line(win_cur.TeamID || ' ' ||win_cur.SeasonID
+			|| ' '||win_cur.Wins);
+	END LOOP
+EXCEPTION
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('There was an error that occured');
+		
+END;
+--This query shows the 3 worst seasons, by losses.
+CREATE OR REPLACE PROCEDURE worst_records
+IS
+	loss_cur IS
+	SELECT * FROM
+	(
+		SELECT TeamID, Losses, SeasonID
+		RANK() OVER (ORDER BY Losses DESC) LOSSRANK
+		FROM Team_Record
+	)
+	WHERE LOSSRANK <= 3;
+	loss_rec team_cur%rowtype;
+BEGIN
+FOR loss_rec in team_cur
+	LOOP
+		dbms_output.put_line(loss_cur.TeamID || ' ' ||loss_cur.SeasonID
+			|| ' '||loss_cur.Losses);
+	END LOOP
+EXCEPTION
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('There was an error that occured');
+		
+END;
+/
 
 /*
 ------------------------------------------------
